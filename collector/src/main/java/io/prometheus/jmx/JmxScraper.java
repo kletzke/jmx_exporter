@@ -140,6 +140,10 @@ class JmxScraper {
         Map<String, MBeanAttributeInfo> name2AttrInfo = new LinkedHashMap<String, MBeanAttributeInfo>();
         for (int idx = 0; idx < attrInfos.length; ++idx) {
             MBeanAttributeInfo attr = attrInfos[idx];
+            if (attr.getType().equals("java.util.Optional")) {
+                logScrape(mbeanName, attr, "skipping Optional type");
+                continue;
+	    }
             if (!attr.isReadable()) {
                 logScrape(mbeanName, attr, "not readable");
                 continue;
